@@ -2,7 +2,7 @@ import { request, response } from "express";
 import db from "../../../prisma/db";
 
 // create category
-const category_create = async (req=request, res=response) {
+export const category_create = async (req=request, res=response) => {
     try {
         const {name} = req.body;
 
