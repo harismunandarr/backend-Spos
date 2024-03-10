@@ -28,7 +28,7 @@ const categories_all = async ( req = request, res = response ) => {
             include: {
                 product:true
             }, orderBy : {
-                createdAt: "desc"
+                createdAt: "asc"
             }
         })
 
@@ -65,9 +65,35 @@ const category_id = async ( req = request, res = response ) => {
     }
 }
 
+//edit category
+const category_edit = async ( req = request, res = response ) => {
+    try {
+        const id = req.params.id
+        const name = req.body.name
+
+        const categoryEdit = await db.categories.update({
+            where: {
+                id: parseInt(id),
+            },
+            data: {
+                name: name
+            }
+        })
+        
+        return res.status(200).json({
+            status: 200,
+            message: "Category edited",
+            data: categoryEdit
+        })
+    } catch (error) {
+        console.error(error)
+    }
+}
+
 
 export {
     category_create,
     categories_all,
-    category_id
+    category_id,
+    category_edit
 }
