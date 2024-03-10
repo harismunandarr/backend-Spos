@@ -2,7 +2,7 @@ import { request, response } from "express";
 import db from "../../../prisma/db";
 
 // create category
-const category_create = async (req=request, res=response) => {
+const category_create = async ( req = request, res = response) => {
     try {
         const {name} = req.body;
 
@@ -22,7 +22,7 @@ const category_create = async (req=request, res=response) => {
 }
 
 // get all category
-const categories_all = async (req=request, res=response) => {
+const categories_all = async ( req = request, res = response ) => {
     try {
         const categoryData = await db.categories.findMany({
             include: {
@@ -42,8 +42,32 @@ const categories_all = async (req=request, res=response) => {
     }
 }
 
+//get category by id
+const category_id = async ( req = request, res = response ) => {
+    try {
+        const id = parseInt(req.params.id);
+        const categoryId = await db.categories.findUnique({
+            where: {
+                id : id
+            },
+            include : {
+                product: true
+            }
+        }) 
+
+        return res.status(200).json({
+            status: 200,
+            message: "Read by id",
+            data: categoryId
+        })
+    } catch (error) {
+        console.error(error)
+    }
+}
+
 
 export {
     category_create,
-    categories_all
+    categories_all,
+    category_id
 }
