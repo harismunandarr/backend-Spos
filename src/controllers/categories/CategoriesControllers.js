@@ -90,10 +90,32 @@ const category_edit = async ( req = request, res = response ) => {
     }
 }
 
+//delete category
+const category_delete = async ( req = request, res = response ) => {
+    try {
+        const id = parseInt(req.params.id)
+
+        const categoryDelete = await db.categories.delete({
+            where: {
+                id: id
+            }
+        })
+
+        return res.status(200).json({
+            status: 200,
+            message: "Category deleted",
+            data: categoryDelete
+        })
+    } catch (error) {
+        
+    }
+}
+
 
 export {
     category_create,
     categories_all,
     category_id,
-    category_edit
+    category_edit,
+    category_delete
 }
